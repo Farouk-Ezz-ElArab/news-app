@@ -26,6 +26,8 @@ class ApiManager {
     String sourceId, {
     String searchQuery = '',
     String searchIn = '',
+    int page = 1,
+    int pageSize = 10,
   }) async {
     Uri url = Uri.https(ApiConstants.baseUrl, EndPoints.newsApi, {
       'apiKey': ApiConstants.apiKey,
@@ -42,5 +44,23 @@ class ApiManager {
     } catch (e) {
       throw e;
     }
+  }
+
+  static Future<List<News>> getPagedNews({
+    required String sourceId,
+    String searchQuery = '',
+    String searchIn = '',
+    int page = 1,
+    int pageSize = 10,
+  }) async {
+    final newsResponse = await ApiManager.getNewsBySourceId(
+      sourceId,
+      searchQuery: searchQuery,
+      searchIn: searchIn,
+      page: page,
+      pageSize: pageSize,
+    );
+
+    return newsResponse?.articles ?? [];
   }
 }
