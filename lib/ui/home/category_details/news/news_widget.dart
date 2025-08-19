@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:news_app/ui/home/category_details/news/cubit/news_view_model.dart';
 
-import '../../../../api/api_manager.dart';
 import '../../../../model/NewsResponse.dart';
 import '../../../../model/SourceResponse.dart';
 import 'news_bottom_sheet.dart';
@@ -48,6 +47,7 @@ class _NewsWidgetState extends State<NewsWidget> {
         );
       },
     );
+  }
   @override
   void dispose() {
     pagingController.dispose();
