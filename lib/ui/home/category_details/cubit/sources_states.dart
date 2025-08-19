@@ -15,3 +15,5 @@ class SourceSuccessState extends SourcesStates {
 
   SourceSuccessState({required this.sourcesList});
 }
+
+class SourceChangedState extends SourcesStates {}

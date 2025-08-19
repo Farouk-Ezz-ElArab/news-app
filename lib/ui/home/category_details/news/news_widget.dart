@@ -54,13 +54,13 @@ class _NewsWidgetState extends State<NewsWidget> {
     super.dispose();
   }
 
-  @override
-  void didUpdateWidget(covariant NewsWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.source.id != widget.source.id) {
-      pagingController.refresh();
-    }
-  }
+  // @override
+  // void didUpdateWidget(covariant NewsWidget oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   if (oldWidget.source.id != widget.source.id) {
+  //     pagingController.refresh();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
