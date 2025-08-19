@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:news_app/ui/home/category_details/news/cubit/news_view_model.dart';
 
 import '../../../../api/api_manager.dart';
 import '../../../../model/NewsResponse.dart';
@@ -17,16 +18,36 @@ class NewsWidget extends StatefulWidget {
 }
 
 class _NewsWidgetState extends State<NewsWidget> {
-  late final pagingController = PagingController<int, News>(
-    getNextPageKey: (state) =>
-    state.lastPageIsEmpty ? null : state.nextIntPageKey,
-    fetchPage: (pageKey) =>
-        ApiManager.getPagedNews(
-          page: pageKey,
-          sourceId: widget.source.id ?? '',
-        ),
-  );
+  late NewsViewModel viewModel;
+  late final PagingController<int, News> pagingController;
 
+  // = PagingController<int, News>(
+  //   getNextPageKey: (state) =>
+  //   state.lastPageIsEmpty ? null : state.nextIntPageKey,
+  //   fetchPage: (pageKey) =>
+  //       ApiManager.getPagedNews(
+  //         page: pageKey,
+  //         sourceId: widget.source.id ?? '',
+  //       ),
+  // );
+  @override
+  void initState() {
+    super.initState();
+    viewModel = NewsViewModel();
+    pagingController = PagingController(
+      getNextPageKey: (state) {
+        if (state.lastPageIsEmpty) {
+          return null;
+        }
+        return state.nextIntPageKey;
+      },
+      fetchPage: (pageKey) async {
+        return await viewModel.getPagedNews(
+          sourceId: widget.source.id ?? '',
+          page: pageKey,
+        );
+      },
+    );
   @override
   void dispose() {
     pagingController.dispose();
@@ -40,6 +61,7 @@ class _NewsWidgetState extends State<NewsWidget> {
       pagingController.refresh();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return PagingListener(
@@ -87,8 +109,13 @@ class _NewsWidgetState extends State<NewsWidget> {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(message ?? 'Error loading data'),
+          Text(message ?? 'Error loading data', style: Theme
+              .of(context)
+              .textTheme
+              .headlineMedium, textAlign: TextAlign
+              .center,),
           const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () => pagingController.refresh(),

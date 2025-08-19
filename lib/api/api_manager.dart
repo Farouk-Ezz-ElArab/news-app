@@ -33,7 +33,7 @@ class ApiManager {
       'apiKey': ApiConstants.apiKey,
       'sources': sourceId,
       if (searchQuery.isNotEmpty) 'q': searchQuery,
-      if (searchIn.isNotEmpty) 'searchIn': searchIn, // optional
+      if (searchIn.isNotEmpty) 'searchIn': searchIn,
     });
     try {
       var response = await http.get(url);
@@ -46,7 +46,7 @@ class ApiManager {
     }
   }
 
-  static Future<List<News>> getPagedNews({
+  static Future<NewsResponse?> getPagedNews({
     required String sourceId,
     String searchQuery = '',
     String searchIn = '',
@@ -61,6 +61,6 @@ class ApiManager {
       pageSize: pageSize,
     );
 
-    return newsResponse?.articles ?? [];
+    return newsResponse;
   }
 }
