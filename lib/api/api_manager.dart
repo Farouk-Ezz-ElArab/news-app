@@ -7,7 +7,7 @@ import 'package:news_app/model/NewsResponse.dart';
 import 'package:news_app/model/SourceResponse.dart';
 
 class ApiManager {
-  static Future<SourceResponse?> getSources(String categoryId) async {
+  Future<SourceResponse?> getSources(String categoryId) async {
     Uri url = Uri.https(ApiConstants.baseUrl, EndPoints.sourceApi, {
       'apiKey': ApiConstants.apiKey,
       'category': categoryId,
@@ -22,7 +22,7 @@ class ApiManager {
     }
   }
 
-  static Future<NewsResponse?> getNewsBySourceId(
+  Future<NewsResponse?> getNewsBySourceId(
     String sourceId, {
     String searchQuery = '',
     String searchIn = '',
@@ -46,14 +46,14 @@ class ApiManager {
     }
   }
 
-  static Future<NewsResponse?> getPagedNews({
+  Future<NewsResponse?> getPagedNews({
     required String sourceId,
     String searchQuery = '',
     String searchIn = '',
     int page = 1,
     int pageSize = 10,
   }) async {
-    final newsResponse = await ApiManager.getNewsBySourceId(
+    var newsResponse = await getNewsBySourceId(
       sourceId,
       searchQuery: searchQuery,
       searchIn: searchIn,

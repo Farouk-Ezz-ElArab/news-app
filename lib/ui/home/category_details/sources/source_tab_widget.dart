@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/di/di.dart';
 import 'package:news_app/model/SourceResponse.dart';
 import 'package:news_app/ui/home/category_details/cubit/source_view_model.dart';
 import 'package:news_app/ui/home/category_details/news/news_widget.dart';
@@ -18,9 +19,9 @@ class SourceTabWidget extends StatefulWidget {
 }
 
 class _SourceTabWidgetState extends State<SourceTabWidget> {
-  SourceViewModel viewModel = SourceViewModel();
-
-  @override
+  SourceViewModel viewModel = SourceViewModel(
+    sourceRepository: injectSourceRepository(),
+  )@override
   void initState() {
     viewModel.changeSelectedIndex(0, widget.sourcesList[0].id ?? '');
     super.initState();

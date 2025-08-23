@@ -3,7 +3,6 @@ import 'package:news_app/ui/home/category_details/category_details.dart';
 import 'package:news_app/ui/home/widgets/drawer_widget.dart';
 import 'package:news_app/utils/app_colors.dart';
 import 'package:provider/provider.dart';
-
 import '../../api/api_manager.dart';
 import '../../l10n/app_localizations.dart';
 import '../../model/NewsResponse.dart';
@@ -115,9 +114,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_searchQuery.isEmpty) {
       return Center(child: Text("Start typing to search..."));
     }
+    final apiManager = ApiManager();
 
     return FutureBuilder<NewsResponse?>(
-      future: ApiManager.getNewsBySourceId(
+      future: apiManager.getNewsBySourceId(
         '',
         searchQuery: _searchQuery,
         searchIn: "title,description",
