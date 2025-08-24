@@ -21,7 +21,9 @@ class SourceTabWidget extends StatefulWidget {
 class _SourceTabWidgetState extends State<SourceTabWidget> {
   SourceViewModel viewModel = SourceViewModel(
     sourceRepository: injectSourceRepository(),
-  )@override
+  );
+
+  @override
   void initState() {
     viewModel.changeSelectedIndex(0, widget.sourcesList[0].id ?? '');
     super.initState();
