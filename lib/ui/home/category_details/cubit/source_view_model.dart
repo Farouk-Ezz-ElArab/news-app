@@ -1,11 +1,10 @@
+// import 'package:bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
-import 'package:news_app/api/api_manager.dart';
-import 'package:news_app/data/repository/sources/data_sources/remote/impl/source_remote_data_source_impl.dart';
-import 'package:news_app/data/repository/sources/data_sources/remote/source_remote_data_source.dart';
-import 'package:news_app/data/repository/sources/repository/impl/source_repository_impl.dart';
+import 'package:injectable/injectable.dart';
 import 'package:news_app/data/repository/sources/repository/source_repository.dart';
 import 'package:news_app/ui/home/category_details/cubit/sources_states.dart';
 
+@injectable
 class SourceViewModel extends Cubit<SourcesStates> {
   late SourceRepository sourceRepository;
 
@@ -16,20 +15,9 @@ class SourceViewModel extends Cubit<SourcesStates> {
 
   int index = 0;
 
-  void changeSelectedIndex(int selectedIndex, String categoryId) async {
-    try {
-      index = selectedIndex;
-      emit(SourceLoadingState());
-      var response = await sourceRepository.getSources(categoryId);
-
-      if (response?.status != 'ok') {
-        emit(SourceErrorState(errorMessage: response!.message!));
-      } else {
-        emit(SourceChangedState());
-      }
-    } catch (e) {
-      emit(SourceErrorState(errorMessage: e.toString()));
-    }
+  void changeSelectedIndex(int selectedIndex) {
+    index = selectedIndex;
+    emit(SourceChangedState());
   }
 
   void getSources(String categoryId) async {

@@ -1,4 +1,9 @@
-class SourceResponse {
+import 'package:hive/hive.dart';
+
+part 'SourceResponse.g.dart';
+
+@HiveType(typeId: 0)
+class SourceResponse extends HiveObject {
   SourceResponse({this.status, this.sources, this.message, this.code});
 
   SourceResponse.fromJson(dynamic json) {
@@ -13,9 +18,13 @@ class SourceResponse {
     }
   }
 
+  @HiveField(0)
   String? status;
+  @HiveField(1)
   List<Source>? sources;
+  @HiveField(2)
   String? code;
+  @HiveField(3)
   String? message;
 
   Map<String, dynamic> toJson() {
@@ -28,7 +37,8 @@ class SourceResponse {
   }
 }
 
-class Source {
+@HiveType(typeId: 1)
+class Source extends HiveObject {
   Source({
     this.id,
     this.name,
@@ -49,12 +59,19 @@ class Source {
     country = json['country'];
   }
 
+  @HiveField(0)
   String? id;
+  @HiveField(1)
   String? name;
+  @HiveField(2)
   String? description;
+  @HiveField(3)
   String? url;
+  @HiveField(4)
   String? category;
+  @HiveField(5)
   String? language;
+  @HiveField(6)
   String? country;
 
   Map<String, dynamic> toJson() {

@@ -21,7 +21,27 @@ class NewsBottomSheet extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(width * 0.02),
-            child: Image.network(selectedNews.urlToImage!),
+            child: Image.network(
+              selectedNews.urlToImage ?? '',
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  height: height * 0.25,
+                  color: Colors.grey.shade300,
+                  child: const Icon(
+                      Icons.broken_image, size: 50, color: Colors.grey),
+                );
+              },
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Container(
+                  height: height * 0.25,
+                  color: Colors.grey.shade200,
+                  child: const Center(
+                      child: CircularProgressIndicator(color: Colors.grey,)),
+                );
+              },
+            ),
           ),
           SizedBox(height: height * 0.01),
           Expanded(

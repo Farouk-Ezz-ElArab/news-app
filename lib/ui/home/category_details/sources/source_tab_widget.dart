@@ -25,7 +25,7 @@ class _SourceTabWidgetState extends State<SourceTabWidget> {
 
   @override
   void initState() {
-    viewModel.changeSelectedIndex(0, widget.sourcesList[0].id ?? '');
+    viewModel.changeSelectedIndex(0);
     super.initState();
   }
 
@@ -41,10 +41,7 @@ class _SourceTabWidgetState extends State<SourceTabWidget> {
             indicatorColor: Theme.of(context).indicatorColor,
             dividerColor: AppColors.transparentColor,
             onTap: (index) {
-              viewModel.changeSelectedIndex(
-                index,
-                widget.sourcesList[index].id ?? '',
-              );
+              viewModel.changeSelectedIndex(index);
             },
             tabs: widget.sourcesList.map((source) {
               final index = widget.sourcesList.indexOf(source);
@@ -59,14 +56,20 @@ class _SourceTabWidgetState extends State<SourceTabWidget> {
               bloc: viewModel,
               builder: (context, state) {
                 if (state is SourceLoadingState) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                      child: CircularProgressIndicator(color: Colors.grey));
                 }
                 if (state is SourceErrorState) {
                   return Center(child: Text(state.errorMessage));
                 }
-                return NewsWidget(
-                  source: widget.sourcesList[viewModel.index],
-                );
+                if (state is SourceSuccessState ||
+                    state is SourceChangedState) {
+                  return NewsWidget(
+                    key: ValueKey(widget.sourcesList[viewModel.index].id),
+                    source: widget.sourcesList[viewModel.index],
+                  );
+                }
+                return const SizedBox.shrink();
               },
             ),
           ),

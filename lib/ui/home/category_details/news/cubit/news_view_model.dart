@@ -1,12 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:news_app/api/api_manager.dart';
-import 'package:news_app/data/repository/news/data_sources/remote/impl/news_remote_data_source_impl.dart';
-import 'package:news_app/data/repository/news/data_sources/remote/news_remote_data_source.dart';
-import 'package:news_app/data/repository/news/repository/impl/news_repository_impl.dart';
-import 'package:news_app/data/repository/news/repository/news_repository.dart';
-import 'package:news_app/data/repository/news_paged/data_sources/remote/impl/news_remote_data_source_paged_impl.dart';
-import 'package:news_app/data/repository/news_paged/data_sources/remote/news_remote_data_source_paged.dart';
-import 'package:news_app/data/repository/news_paged/repository/impl/news_repository_paged_impl.dart';
 import 'package:news_app/data/repository/news_paged/repository/news_repository_paged.dart';
 import 'package:news_app/model/NewsResponse.dart';
 
@@ -28,6 +20,7 @@ class NewsViewModel extends Cubit<NewsStates> {
     int pageSize = 10,
   }) async {
     try {
+      emit(NewsLoadingState());
       final response = await newsRepositoryPaged.getPagedNews(
         sourceId: sourceId,
         page: page,

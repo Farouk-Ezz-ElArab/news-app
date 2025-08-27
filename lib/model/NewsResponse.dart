@@ -1,6 +1,11 @@
+import 'package:hive/hive.dart';
+
 import 'SourceResponse.dart';
 
-class NewsResponse {
+part 'NewsResponse.g.dart';
+
+@HiveType(typeId: 2)
+class NewsResponse extends HiveObject {
   NewsResponse({
     this.message,
     this.code,
@@ -22,10 +27,15 @@ class NewsResponse {
     }
   }
 
+  @HiveField(0)
   String? status;
+  @HiveField(1)
   int? totalResults;
+  @HiveField(2)
   List<News>? articles;
+  @HiveField(3)
   String? code;
+  @HiveField(4)
   String? message;
 
   Map<String, dynamic> toJson() {
@@ -39,7 +49,8 @@ class NewsResponse {
   }
 }
 
-class News {
+@HiveType(typeId: 3)
+class News extends HiveObject {
   News({
     this.source,
     this.author,
@@ -62,13 +73,21 @@ class News {
     content = json['content'];
   }
 
+  @HiveField(0)
   Source? source;
+  @HiveField(1)
   String? author;
+  @HiveField(2)
   String? title;
+  @HiveField(3)
   String? description;
+  @HiveField(4)
   String? url;
+  @HiveField(5)
   String? urlToImage;
+  @HiveField(6)
   String? publishedAt;
+  @HiveField(7)
   String? content;
 
   Map<String, dynamic> toJson() {
