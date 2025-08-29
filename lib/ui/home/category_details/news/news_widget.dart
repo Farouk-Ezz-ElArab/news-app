@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:news_app/di/di.dart';
+import 'package:news_app/di/di_injectable.dart';
 import 'package:news_app/ui/home/category_details/news/cubit/news_view_model.dart';
 
 import '../../../../model/NewsResponse.dart';
@@ -23,7 +23,7 @@ class _NewsWidgetState extends State<NewsWidget> {
   @override
   void initState() {
     super.initState();
-    viewModel = NewsViewModel(newsRepositoryPaged: injectNewsRepositoryPaged());
+    viewModel = getIt<NewsViewModel>();
     pagingController = PagingController(
       getNextPageKey: (state) {
         if (state.lastPageIsEmpty) {

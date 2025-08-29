@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:news_app/data/repository/news_paged/repository/news_repository_paged.dart';
 import 'package:news_app/model/NewsResponse.dart';
 
 import 'news_states.dart';
 
+@injectable
 class NewsViewModel extends Cubit<NewsStates> {
   // late NewsRepository newsRepository;
   // late NewsRemoteDataSource newsRemoteDataSource;

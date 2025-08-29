@@ -1,10 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:injectable/injectable.dart';
 import 'package:news_app/data/repository/news_paged/data_sources/local/news_local_data_source.dart';
 
 import '../../../../../model/NewsResponse.dart';
 import '../../data_sources/remote/news_remote_data_source_paged.dart';
 import '../news_repository_paged.dart';
 
+@Injectable(as: NewsRepositoryPaged)
 class NewsRepositoryPagedImpl implements NewsRepositoryPaged {
   NewsRemoteDataSourcePaged newsRemoteDataSourcePaged;
   NewsLocalDataSource newsLocalDataSource;
