@@ -1,7 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:news_app/api/dio_api_manger.dart';
 
-import '../../../../api/api_manager.dart';
+import '../../../../api/app_Exception.dart';
 import '../../../../model/NewsResponse.dart';
 import '../../../../model/SourceResponse.dart';
 import 'news_bottom_sheet.dart';
@@ -21,7 +23,7 @@ class _NewsWidgetState extends State<NewsWidget> {
     getNextPageKey: (state) =>
     state.lastPageIsEmpty ? null : state.nextIntPageKey,
     fetchPage: (pageKey) =>
-        ApiManager.getPagedNews(
+        DioApiManager.getInstance().getPagedNews(
           page: pageKey,
           sourceId: widget.source.id ?? '',
         ),
@@ -53,12 +55,18 @@ class _NewsWidgetState extends State<NewsWidget> {
                   Center(
                     child: CircularProgressIndicator(color: Colors.grey),
                   ),
-              firstPageErrorIndicatorBuilder: (context) =>
-                  errorWidget(
-                    context,
-                    message: 'Something went wrong. Please check your connection.',
-                  ),
+              firstPageErrorIndicatorBuilder: (context) {
+                String errorMessage = 'Something went wrong. Please check your connection.';
+                final error = state.error;
 
+                if (error is DioException && error.error is AppException) {
+                  errorMessage = (error.error as AppException).message;
+                } else if (error != null) {
+                  errorMessage = error.toString();
+                }
+
+                return errorWidget(context, message: errorMessage);
+              },
               itemBuilder: (context, newsItem, index) =>
                   InkWell(
                     onTap: () => showCustomBottomSheet(newsItem),
